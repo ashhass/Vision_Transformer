@@ -24,11 +24,7 @@ class Patch_Embedding(nn.Module):
 
         x = self.patch_embed(x).permute(0, 2, 1)
         x = torch.cat([cls_token, x], dim=1)
+        x = self.positional_embedding + x
         x = self.dropout(x)
 
         return x
-
-
-model = Patch_Embedding(EMBED_DIM, PATCH_SIZE, NUM_PATCHES, DROPOUT, IN_CHANNELS)
-x =  torch.rand(512, 1, 28, 28)
-print(model(x).shape)
