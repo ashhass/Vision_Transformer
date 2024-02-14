@@ -16,3 +16,5 @@ EMBED_DIM = (PATCH_SIZE ** 2) * IN_CHANNELS
 NUM_PATCHES = (IMG_SIZE  // PATCH_SIZE) ** 2
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
+
+dataset_folder = '/Users/aydasultan/Documents/CUB_Dataset/CUB_200_2011'

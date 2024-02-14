@@ -2,8 +2,6 @@ from libs import *
 from param import *
 from patch_embed import Patch_Embedding
 
-
-
 class ViT(nn.Module):
 
     def __init__(self, num_patches, img_size, num_classes, patch_size, embed_dim, num_encoders, num_heads, hidden_dim, dropout, activation, in_channels):
