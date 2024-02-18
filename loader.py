@@ -5,39 +5,36 @@ class CUB_Dataset():
 
     def __init__(self):
         super().__init__()
-        imageToFolder, folderToName = {}, {}
-        path = f'{dataset_folder}/images'
-        for index, (root, dirs, files) in enumerate(os.walk(path)):
-            imageToFolder[index] = [imageToFolder[index - 1][1], len(files) + imageToFolder[index - 1][1]] if index != 0 else [0, len(files)]
-            folderToName[index] = root
+        image_list = []
+        for root, dirs, files in os.walk(dataset_folder):
+            image_list += files if self.isImage(files) else []
 
-        self.imageToFolder = imageToFolder
-        self.folderToName = folderToName
-
-        # print(self.imageToFolder)
+        self.image_list = image_list
 
 
     def __len__(self):
-        return self.imageToFolder[200][1] - 1
-
-    def __getitem__(self, idx):
-        for keys, (low, high) in self.imageToFolder.items():
-            if low <= idx <= high:
-                folder = keys
-                index = idx - low
+        return len(self.image_list)
 
 
-        path = self.folderToName[folder]
-        folderName = path[path.rfind('/') + 1 : ] 
-        # print(folderName)
+    def __getitem__(self, idx, transforms=None):
+        image_idx = self.image_list[idx]
+        for folder in os.listdir(f'{dataset_folder}/images'):
+            if folder[folder.find('.') + 1:] in image_idx:
+                folder_idx = folder
         
-        image_path = f'{dataset_folder}/images/{folderName}'
-        image_str = os.listdir(image_path)[index]
+        image = np.array(Image.open(f'{dataset_folder}/images/{folder_idx}/{image_idx}'), dtype=np.int32)
+        target = int(folder_idx[:folder_idx.find('.')])
 
-        image = np.array(Image.open(os.path.join(image_path, image_str)))
+        if transforms:
+            pass
 
-dataset = CUB_Dataset()
-dataset.__getitem__(0)    
-dataset.__getitem__(0)    
-dataset.__getitem__(1)   
-dataset.__getitem__(2)  
+        return image, target
+
+
+    def isImage(self, file):
+        image_extension = ['jpg', 'jpeg', 'png', 'gif', 'bmp']
+        return any(file[0].endswith(extension) for extension in image_extension)
+
+
+data = CUB_Dataset() 
+data.__getitem__(0)
