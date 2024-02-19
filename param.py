@@ -14,7 +14,10 @@ ACTIVATION = 'gelu'
 NUM_ENCODERS = 4
 EMBED_DIM = (PATCH_SIZE ** 2) * IN_CHANNELS
 NUM_PATCHES = (IMG_SIZE  // PATCH_SIZE) ** 2
+NUM_EPOCHS = 4
+LOAD_MODEL = False
+CHECKPOINT = ''
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-dataset_folder = '/Users/aydasultan/Documents/CUB_Dataset/CUB_200_2011'
+dataset_folder = '/Users/aydasultan/Documents/CUB_Dataset/CUB_200_2011' 

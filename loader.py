@@ -33,8 +33,4 @@ class CUB_Dataset():
 
     def isImage(self, file):
         image_extension = ['jpg', 'jpeg', 'png', 'gif', 'bmp']
-        return any(file[0].endswith(extension) for extension in image_extension)
-
-
-data = CUB_Dataset() 
-data.__getitem__(0)
+        return any(file[0].endswith(extension) for extension in image_extension) 
