@@ -1,4 +1,4 @@
-from libs import *
+from libs import torch
 
 LEARNING_RATE = 1e-4
 NUM_CLASSES = 10
