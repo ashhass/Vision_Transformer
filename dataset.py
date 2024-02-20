@@ -3,12 +3,13 @@ from param import *
 
 class CUB_Dataset():
 
-    def __init__(self):
+    def __init__(self, dataset, transforms=None):
         super().__init__()
         image_list = []
-        for root, dirs, files in os.walk(dataset_folder):
+        for root, dirs, files in os.walk(dataset):
             image_list += files if self.isImage(files) else []
 
+        self.transforms = transforms
         self.image_list = image_list
 
 
@@ -16,17 +17,18 @@ class CUB_Dataset():
         return len(self.image_list)
 
 
-    def __getitem__(self, idx, transforms=None):
+    def __getitem__(self, idx):
         image_idx = self.image_list[idx]
-        for folder in os.listdir(f'{dataset_folder}/images'):
+        for folder in os.listdir(f'{dataset}/images'):
             if folder[folder.find('.') + 1:] in image_idx:
                 folder_idx = folder
         
-        image = np.array(Image.open(f'{dataset_folder}/images/{folder_idx}/{image_idx}'), dtype=np.int32)
+        image = np.array(Image.open(f'{dataset}/images/{folder_idx}/{image_idx}'), dtype=np.int32)
         target = int(folder_idx[:folder_idx.find('.')])
 
-        if transforms:
-            pass
+        if self.transform:
+            augmentations = self.transform(image=image)
+            image = augmentations["image"]
 
         return image, target
 

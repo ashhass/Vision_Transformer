@@ -3,16 +3,6 @@ from vit import ViT
 from config import config
 
 
-'''
-    What do I need:     
-        1. Load the data
-        2. Initialize the cost function and optimization algorithm
-        3. Train the network on loaded data
-
-''' 
-
-
-
 class Trainer(nn.Module):
 
     def __init__(self, config):
@@ -22,6 +12,11 @@ class Trainer(nn.Module):
         self.num_epochs = config['NUM_EPOCHS']
         self.criterion = nn.CrossEntropyLoss()
         self.optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3)
+        
+        train_loader, val_loader = get_loaders(
+            train_dir=config["train_dir"], val_dir=config["val_dir"], train_transform=config["train_transform"], 
+            val_transform=config["val_transform"], batch_size=config["batch_size"], num_workers=config["num_workers"]
+        )    
         self.train_loader = train_loader
         self.val_loader = val_loader
 
@@ -32,7 +27,10 @@ class Trainer(nn.Module):
     def val_one_step(self, model, data):
         for k, v in data.items():
             data[k] = v.to(device)
-        loss = model(**data)
+        
+        inputs, target = data.items()
+        predictions = model(inputs)
+        
         return loss
 
 
@@ -51,10 +49,15 @@ class Trainer(nn.Module):
     def train_one_step(self, model, data, optimizer):
         optimizer.zero_grad()
         for k, v in data.items():
-            data[k] = v.to(device)
-        loss = model(**data)
+            data[k] = v.to(device) 
+        
+        inputs, target = data.items()
+        predictions = model(inputs)
+        
+        loss = self.criterion(predictions, target)  
         loss.backward()
         optimizer.step()
+        
         return loss 
     
 
@@ -63,7 +66,8 @@ class Trainer(nn.Module):
         for epoch in range(self.num_epochs):
             total_loss = 0
             for batch_index, data in enumerate(self.train_loader):
-                loss = train_one_step(model, data, optimizer)
+                with torch.cuda.amp.autocast:
+                    loss = train_one_step(model, data, optimizer)
                 total_loss += loss
 
-        return total_loss
+        return total_loss   

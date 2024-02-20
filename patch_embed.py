@@ -3,7 +3,6 @@ from param import *
 
 class Patch_Embedding(nn.Module):
 
-
     def __init__(self, embed_dim, patch_size, num_patches, dropout, in_channels):
         super().__init__()
         self.patch_embed = nn.Sequential(
@@ -27,4 +26,4 @@ class Patch_Embedding(nn.Module):
         x = self.positional_embedding + x
         x = self.dropout(x)
 
-        return x
+        return x 

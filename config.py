@@ -14,7 +14,11 @@ config = {
         "activation": ACTIVATION,
         "in_channels": IN_CHANNELS
     },
-    "NUM_EPOCHS": NUM_EPOCHS,
+    "num_epochs": NUM_EPOCHS,
+    "batch_size": BATCH_SIZE,
+    "num_workers": NUM_WORKERS,
     "load_model": LOAD_MODEL,
-    "checkpoint": CHECKPOINT  
+    "checkpoint": CHECKPOINT,
+    "train_dir": TRAIN_DIR,
+    "val_dir": VAL_DIR  
 }
