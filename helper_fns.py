@@ -1,3 +1,4 @@
+from lib import DataLoader
 from dataset import CUB_Dataset
 
 def load_checkpoint(checkpoint, model):
