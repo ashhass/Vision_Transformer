@@ -1,4 +1,4 @@
-from libs import *
+from libs import torch, nn
 from vit import ViT
 from config import config
 
@@ -9,7 +9,7 @@ class Trainer(nn.Module):
         super().__init__()
         self.config = config
         self.model = ViT(**config['model_config'])
-        self.num_epochs = config['NUM_EPOCHS']
+        self.num_epochs = config['num_epochs']
         self.criterion = nn.CrossEntropyLoss()
         self.optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3)
         
@@ -61,13 +61,13 @@ class Trainer(nn.Module):
         return loss 
     
 
-    def forward(self, x):
+    def forward(self, model):
         model.train()
         for epoch in range(self.num_epochs):
             total_loss = 0
             for batch_index, data in enumerate(self.train_loader):
                 with torch.cuda.amp.autocast:
-                    loss = train_one_step(model, data, optimizer)
+                    loss = train_one_step(model, data, self.optimizer)
                 total_loss += loss
 
         return total_loss   
