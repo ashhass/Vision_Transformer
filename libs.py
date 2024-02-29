@@ -18,5 +18,5 @@ from torchvision import transforms
 from torch.autograd import Variable
 from easy_transformer import EasyTransformer
 from torch.utils.data import Dataset, DataLoader
-from torch.utils.tensorboard import SummaryWriter
+# from torch.utils.tensorboard import SummaryWriter
 from easy_transformer.utils import get_corner, gelu_new, tokenize_and_concatenate

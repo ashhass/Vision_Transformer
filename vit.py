@@ -1,5 +1,6 @@
 from libs import *
 from param import *
+from config import config
 from patch_embed import Patch_Embedding
 
 class ViT(nn.Module):
@@ -7,6 +8,7 @@ class ViT(nn.Module):
     def __init__(self, num_patches, img_size, num_classes, patch_size, embed_dim, num_encoders, num_heads, hidden_dim, dropout, in_channels, mlp_ratio=4., qkv_bias=True):
         super().__init__()
 
+        print(config['model_config'][num_patches], img_size, num_classes, patch_size, embed_dim, num_encoders, num_heads, hidden_dim, dropout, in_channels)
         self.embedding_block = Patch_Embedding(embed_dim, patch_size, num_patches, dropout, in_channels)
         self.encoder_blocks = nn.ModuleList([
             Block(
