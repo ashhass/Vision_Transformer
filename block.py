@@ -1,4 +1,5 @@
 from libs import torch, nn
+from mlp import MLP
 from attention import Attention
 
 class Block(nn.Module):
@@ -17,7 +18,7 @@ class Block(nn.Module):
             3. mlp: linear layer
     '''
 
-    def __init__(self, dim, num_heads, mlp_ratio=4.0, qkv_bias=True, p=0., attn_p=0.):
+    def __init__(self, dim, num_heads, mlp_ratio=4.0, qkv_bias=True, p=0., attn_prob=0.):
         super().__init__()
         self.norm1 = nn.LayerNorm(dim, eps=1e-6)
         self.attn = Attention(
@@ -25,7 +26,7 @@ class Block(nn.Module):
             num_heads=num_heads,
             qkv_bias=qkv_bias,
             proj_prob=p,
-            attn_p=attn_p
+            attn_prob=attn_prob
         )
         self.norm2 = nn.LayerNorm(dim, eps=1e-6)
         hidden_features = int(dim * mlp_ratio)

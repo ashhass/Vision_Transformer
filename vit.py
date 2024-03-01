@@ -29,7 +29,7 @@ class ViT(nn.Module):
                 mlp_ratio=mlp_ratio,
                 qkv_bias=qkv_bias,
                 p=dropout,
-                attn_p=dropout
+                attn_prob=dropout
             )
             for _ in range(num_encoders)
         ])
