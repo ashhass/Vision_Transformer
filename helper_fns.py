@@ -1,4 +1,4 @@
-from lib import DataLoader
+from libs import DataLoader
 from dataset import CUB_Dataset
 
 def load_checkpoint(checkpoint, model):
@@ -8,8 +8,8 @@ def load_checkpoint(checkpoint, model):
 
 def get_loaders(train_dir, val_dir, train_transform, val_transform, batch_size, num_workers):
 
-    train_ds = CUB_Dataset(config["train_dir"])
-    val_ds = CUB_Dataset(config["val_dir"])
+    train_ds = CUB_Dataset(train_dir)
+    val_ds = CUB_Dataset(val_dir)
 
     train_loader = DataLoader(train_ds, batch_size=batch_size, num_workers=num_workers, shuffle=True)
     val_loader = DataLoader(val_ds, batch_size=batch_size, num_workers=num_workers, shuffle=False)

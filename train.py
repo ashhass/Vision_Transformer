@@ -1,6 +1,7 @@
 from libs import torch, nn
 from vit import ViT
-from config import config
+from config import config as cfg
+from helper_fns import get_loaders
 
 
 class Trainer(nn.Module):
@@ -8,14 +9,14 @@ class Trainer(nn.Module):
     def __init__(self, config):
         super().__init__()
         self.config = config
-        self.model = ViT(**config['model_config'])
+        self.model = ViT(config['model_config'])
         self.num_epochs = config['num_epochs']
         self.criterion = nn.CrossEntropyLoss()
-        self.optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3)
+        self.optimizer = torch.optim.AdamW(self.model.parameters(), lr=1e-3)
         
         train_loader, val_loader = get_loaders(
-            train_dir=config["train_dir"], val_dir=config["val_dir"], train_transform=config["train_transform"], 
-            val_transform=config["val_transform"], batch_size=config["batch_size"], num_workers=config["num_workers"]
+            train_dir=cfg["train_dir"], val_dir=cfg["val_dir"], train_transform=cfg["train_transform"], 
+            val_transform=cfg["val_transform"], batch_size=cfg["batch_size"], num_workers=cfg["num_workers"]
         )    
         self.train_loader = train_loader
         self.val_loader = val_loader

@@ -22,5 +22,7 @@ config = {
     "load_model": LOAD_MODEL,
     "checkpoint": CHECKPOINT,
     "train_dir": TRAIN_DIR,
-    "val_dir": VAL_DIR  
+    "val_dir": VAL_DIR,
+    "train_transform": TRAIN_TRANSFORM,
+    "val_transform": VAL_TRANSFORM  
 }
