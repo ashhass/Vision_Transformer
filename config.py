@@ -12,7 +12,9 @@ config = {
         "hidden_dim": HIDDEN_DIM,
         "dropout": DROPOUT,
         "activation": ACTIVATION,
-        "in_channels": IN_CHANNELS
+        "in_channels": IN_CHANNELS,
+        "mlp_ratio": MLP_RATIO,
+        "qkv_bias": QKV_BIAS 
     },
     "num_epochs": NUM_EPOCHS,
     "batch_size": BATCH_SIZE,
