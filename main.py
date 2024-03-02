@@ -10,9 +10,6 @@ def main():
     trainer = Trainer(config)
     loss = trainer(model) 
 
-    print(loss) 
-
-
 if __name__ == '__main__':
     multiprocessing.freeze_support()
     main() 

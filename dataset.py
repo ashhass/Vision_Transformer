@@ -9,8 +9,9 @@ class CUB_Dataset():
         for root, dirs, files in os.walk(dataset):
             image_list += files if self.isImage(files) else []
 
-        self.transforms = transforms
+        self.transform = transforms
         self.image_list = image_list
+        self.dataset = dataset
 
 
     def __len__(self):
@@ -19,11 +20,11 @@ class CUB_Dataset():
 
     def __getitem__(self, idx):
         image_idx = self.image_list[idx]
-        for folder in os.listdir(f'{dataset}/images'):
+        for folder in os.listdir(f'{self.dataset}/images'):
             if folder[folder.find('.') + 1:] in image_idx:
                 folder_idx = folder
         
-        image = np.array(Image.open(f'{dataset}/images/{folder_idx}/{image_idx}'), dtype=np.int32)
+        image = np.array(Image.open(f'{self.dataset}/images/{folder_idx}/{image_idx}'), dtype=np.int32)
         target = int(folder_idx[:folder_idx.find('.')])
 
         if self.transform:
